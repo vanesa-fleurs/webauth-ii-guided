@@ -15,7 +15,8 @@ const sessionConfiguration = {
     httpOnly: false, // JS can't access cookies. 
     maxAge: 60 * 60 * 1000, //experiation in milli sec.
     //NOTE in production use HTTPS
-    secure: process.env.NODE_ENV === production ? true : false , //should be true in production only 
+    // secure: process.env.NODE_ENV === production ? true : false , //should be true in production only 
+    secure: false
   },
   //GDPR compliance: 
   resave: false,

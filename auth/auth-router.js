@@ -20,11 +20,16 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
   let { username, password } = req.body;
+  console.log("SESSION!", req.session)
 
   Users.findBy({ username })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
+        //save username to session to remember across requests
+        req.session.username = user.username 
+        console.log("SESSION! WITH USERNAME", req.session)
+
         res.status(200).json({
           message: `Welcome ${user.username}!`,
         });
