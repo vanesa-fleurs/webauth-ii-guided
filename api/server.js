@@ -1,7 +1,9 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const sessions = require('express-session')
+// const sessions = require('express-session')
+// const knexSessionsStore = require('knex-session-knex')(sessions);
+// const knexConfig = /*require('../knexfile.js'); ---> */ require('../database/dbConfig.js'); 
 
 const authRouter = require('../auth/auth-router.js');
 const usersRouter = require('../users/users-router.js');
@@ -21,7 +23,17 @@ const sessionConfiguration = {
   //GDPR compliance: 
   resave: false,
   saveUninitialized: true, //read about GDPR compliance concerning cookies
+  //STORE KEY to save the session data
+  //need to work with knex! Need library `npm i connect-sessions-knex`
+  // store: new KnexSessionStore({
+  //   knex: knexConfig, 
+  //   //weather you wnat to create a table for the sessions or not:
+  //   //auto create sessions table in the database
+  //   createtable: true,
+  //   //clear interval for createtable
+  //   clearInterval: 1000 * 60 * 30 //dleete expired sessions every 30 min. 
 
+  // })
 };
 
 
@@ -29,9 +41,9 @@ const sessionConfiguration = {
 //GLOBAL MIDDLEWARE
 server.use(helmet());
 server.use(express.json());
-server.use(cors());
+server.use(cors()); //need cors if you want to use a client 
 //SESSIONS
-server.use(sessions(sessionConfiguration)); //turn on sessions support 
+// server.use(sessions(sessionConfiguration)); //turn on sessions support 
 
 server.use('/api/auth', authRouter);
 server.use('/api/users', usersRouter);
@@ -45,3 +57,10 @@ module.exports = server;
 //session is like a table for clients
 //express-session
 //needs global middleware (so in server.js)
+
+
+//3 common ways to store session information: memory, memoryCache (Redis and Memcache), database
+//THIS library will store sessions in memory too 
+
+
+//you're turn now! 

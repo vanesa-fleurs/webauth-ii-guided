@@ -42,4 +42,12 @@ router.post('/login', (req, res) => {
     });
 });
 
+
+
+router.get('/logout', (req,res) => {
+  req.session.destroy();
+})
+
 module.exports = router;
+
+//req.session has a destroy method! Need a destroy to destroy session id?
